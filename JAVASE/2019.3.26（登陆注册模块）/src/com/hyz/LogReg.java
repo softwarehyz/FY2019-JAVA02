@@ -5,12 +5,34 @@ import java.util.Scanner;
 public class LogReg {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		LogReg L1=new LogReg();
-		TUserView T2=L1.new TUserView();
-		T2.login();
-		T2.register();
+		// TODO Auto-generated method stub	
+		welcome();
+		operation1();
 	}
+	
+	public static void welcome(){                        //欢迎界面
+		System.out.println("\n"+"·············欢迎使用本系统系统·············" + "\n"+ "\n"  +"\t" +"\t"+ "1.登陆" + "\t" +"\t"+ "2.注册"+"\t"+"\t"+"3.退出" + "\n"+ "\n" + "····································"+ "\n");		
+		}
+		
+		public static void operation1(){                 //选择登陆还是退出
+			LogReg L1=new LogReg();
+			TUserView T2=L1.new TUserView();
+			Scanner scan = new Scanner(System.in);
+		    System.out.print("请选择：");
+			int n=scan.nextInt();
+			if(n==1){
+				T2.login();//登陆操作
+			}else if(n==2){
+				T2.register();//注册操作	
+			}else if(n==3){
+				System.exit(0);//退出操作	
+			}else{
+				
+				System.out.println("少年别乱来，再输入一次吧！");
+				operation1();              //递归调用
+			}
+			
+		}
 	
 	class User{                                      //用户类
 		public String username;
@@ -94,15 +116,12 @@ public class LogReg {
             
         
    	class TUserBiz implements UserBiz{          //TUserBiz实现类
-    		
-    		User[] users=new User[5];
-    		{
+   		User[] users=new User[5]; {    			
     		User a=new User("admin","admin","Administrator","admin@123.com");
     		User b=new User("tom","cat","tomcat","tomcat@cat.com");
     		users[0]=a;
     		users[1]=b;
     		}
-    		
     		public  void register(String username, String password, String password2,String name, String email) throws RegisterException{
     			for(int i=0;i<users.length;i++) {
     				if(users[i]==null) {
@@ -121,10 +140,14 @@ public class LogReg {
     				 if(users[i]==null) {
     					continue; 
     				 }
-     				if(!(users[i].getUsername().equals(username))) {
+    				 if(users[i].getUsername().equals(username)&&users[i].getPassword().equals(password)) {
+      					System.out.println("登陆成功！");
+      					break;
+      				}
+     				if(!users[i].getUsername().equals(username)) {
      					throw new RegisterException("username不存在");
      				}
-     				if(!users[i].getUsername().equals(username)&users[i].getPassword().equals(password)) {
+     				if(!users[i].getPassword().equals(password)) {
      					throw new RegisterException("username和password不匹配");
      				}	 
      			} 
