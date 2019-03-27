@@ -3,7 +3,11 @@ package com.hyz;
 import java.util.Scanner;
 
 public class LogReg {
-
+	static LogReg L1=new LogReg();
+	static TUserView T2=L1.new TUserView();   
+    User[] users=new User[5]; 
+    TUserBiz T1= new TUserBiz(users); 
+    
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub	
 		welcome();
@@ -13,17 +17,16 @@ public class LogReg {
 	public static void welcome(){                        //欢迎界面
 		System.out.println("\n"+"·············欢迎使用本系统系统·············" + "\n"+ "\n"  +"\t" +"\t"+ "1.登陆" + "\t" +"\t"+ "2.注册"+"\t"+"\t"+"3.退出" + "\n"+ "\n" + "····································"+ "\n");		
 		}
-		
-		public static void operation1(){                 //选择登陆还是退出
-			LogReg L1=new LogReg();
-			TUserView T2=L1.new TUserView();
+		public static void operation1(){                                     //选择登陆还是退出
+			                                   		
 			Scanner scan = new Scanner(System.in);
 		    System.out.print("请选择：");
 			int n=scan.nextInt();
 			if(n==1){
 				T2.login();//登陆操作
 			}else if(n==2){
-				T2.register();//注册操作	
+				T2.register();//注册操作
+				operation1();
 			}else if(n==3){
 				System.exit(0);//退出操作	
 			}else{
@@ -107,40 +110,53 @@ public class LogReg {
     		}
 		
     	}     
-            
-    	
+        
+   
     	interface UserBiz {            //UserBiz接口
-            void register(String username, String password, String password2,String name, String email) throws RegisterException; //用户注册
+    		void usernamexist(String username)throws LoginException;
+    		void Rusernamexist(String username)throws RegisterException;
+    		void  passwordSame(String password,String password2)throws RegisterException;
+            void register(String username, String password,String name, String email) throws RegisterException; //用户注册
             void login(String username, String password) throws LoginException;//用户登录
             }
             
         
    	class TUserBiz implements UserBiz{          //TUserBiz实现类
-   		User[] users=new User[5]; {    			
-    		User a=new User("admin","admin","Administrator","admin@123.com");
-    		User b=new User("tom","cat","tomcat","tomcat@cat.com");
-    		users[0]=a;
-    		users[1]=b;
-    		}
-    		public  void register(String username, String password, String password2,String name, String email) throws RegisterException{
+   	        
+   	        public TUserBiz(User[] users){
+   	        	User a=new User("admin","admin","Administrator","admin@123.com");
+   	    		User b=new User("tom","cat","tomcat","tomcat@cat.com");
+   	    		users[0]=a;
+   	    		users[1]=b;
+   	        }    
+   	        
+    		public  void register(String username, String password, String name, String email) throws RegisterException{
+    			User c=new User(username,password,name,email);
     			for(int i=0;i<users.length;i++) {
     				if(users[i]==null) {
-    					continue;
+    					users[i]=c;
+    					break;
     				}
-    				if(users[i].getUsername().equals(username)) {
-    					throw new RegisterException("username在数组中已经存在");
-    				}break;
     			} 
-    			if(!(password.equals(password2))) {
-					throw new RegisterException("两次输入的password不一致");
-				}	
+    			
     		 } //用户注册
     		 public void login(String username, String password) throws LoginException{
     			 for(int i=0;i<users.length;i++) {
     				 if(users[i]==null) {
     					continue; 
     				 }
-    				 if(users[i].getUsername().equals(username)&&users[i].getPassword().equals(password)) {
+    				 if(users[i].getUsername().equals(username)) {
+    					 if(users[i].getPassword().equals(password)) {
+    						 System.out.println("登陆成功");
+    						 break;
+    					 }else {
+    						 throw new RegisterException("username和password不匹配");	 
+    					 }					 
+    				 }
+    		         
+    			 }
+    			 
+    				 /*if(users[i].getUsername().equals(username)&&users[i].getPassword().equals(password)) {
       					System.out.println("登陆成功！");
       					break;
       				}
@@ -149,12 +165,49 @@ public class LogReg {
      				}
      				if(!users[i].getPassword().equals(password)) {
      					throw new RegisterException("username和password不匹配");
-     				}	 
-     			} 
-     			
-             }//用户登录
-    	}
+     				}*/	 
+
+    		 } //用户登录
+    		public void usernamexist(String username)throws LoginException{//判断用户是否存在
+    			boolean usernamexist=false;
+    			for(int i=0;i<users.length;i++) {
+   				 if(users[i]==null) {
+   					continue; 
+   				 }	
+   				 if(users[i].getUsername().equals(username)) {
+   					usernamexist=true;
+   				 }
+    		}
+    			if(usernamexist==false) {
+    			throw new LoginException("username不存在");	
+    			}
+    	}	
+    		
+    	public void Rusernamexist(String username)throws RegisterException{//注册时判断用户是否存在
+    		boolean Rusernamexist=true;
+			for(int i=0;i<users.length;i++) {
+				 if(users[i]==null) {
+					continue; 
+				 }	
+				 if(users[i].getUsername().equals(username)) {
+					 Rusernamexist=false;
+					 break;
+				 }
+		}
+			if(Rusernamexist==false) {
+			throw new RegisterException("username已经存在");	
+			}
+    		
+    }	
     	
+    public void  passwordSame(String password,String password2)throws RegisterException{
+    	if(!password.equals(password2)) {
+    		throw new RegisterException("两次密码输入不一致");	
+    	}
+    }
+    		
+    		 
+   }    	
     	interface UserView{
     		void login();
     		void register();
@@ -163,10 +216,10 @@ public class LogReg {
      class TUserView implements UserView{
     		
     		public void login() {
-    			 TUserBiz T1= new TUserBiz();  
     			Scanner s=new Scanner(System.in);
     			System.out.println("请输入用户名:");
     			String username=s.next();
+    			T1.usernamexist(username);
     			System.out.println("请输入密码:");
     		    String password =s.next();   		     
     		    T1.login(username, password);
@@ -175,16 +228,17 @@ public class LogReg {
     			Scanner s=new Scanner(System.in);
     			System.out.println("请输入用户名:");
     			String username=s.next();
+    			T1.Rusernamexist(username);
     			System.out.println("请输入密码:");
     		    String password =s.next(); 
     		    System.out.println("请确认密码:");
     		    String password2 =s.next(); 
+    		    T1.passwordSame(password,password2);
     		    System.out.println("请输入真实姓名:");
     		    String name =s.next(); 
     		    System.out.println("请输入电子邮件:");
     		    String email =s.next(); 
-    		    TUserBiz T1= new TUserBiz();    
-    		    T1.register(username, password,password2,name,email);
+    		    T1.register(username, password,name,email);
     		}
     	}
     	
