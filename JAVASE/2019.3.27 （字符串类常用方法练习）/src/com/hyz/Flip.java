@@ -21,6 +21,6 @@ public class Flip {
 			e1=e.reverse();
 			System.out.print(e1+" ");
 		}
-	
+		System.out.print(".");
 	}
 }
