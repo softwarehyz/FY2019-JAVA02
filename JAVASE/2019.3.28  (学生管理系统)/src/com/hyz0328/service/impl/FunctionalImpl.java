@@ -88,6 +88,7 @@ public class FunctionalImpl implements Functional {     //定义一个数组用来存储学
 		}
 		
 		System.out.println("添加学生成功！");
+		System.out.println("系统自动返回上一级......");
 	}
 	
 	public  void DelInfo(Student[] student,Student[] student1) {        //删除学生的方法
@@ -98,8 +99,8 @@ public class FunctionalImpl implements Functional {     //定义一个数组用来存储学
 			if(student[i]==null) {
 			continue;	
 			}
-			if(student[i].getStuid()==num) {
-				x=false;
+			if(student[i].getStuid()==num) {    //判断输入的学号是否与数组中取出的相等
+				x=false;    //用布尔类型的一个变量来判断输入的学号是否存在
 				System.out.println("您要删除的学生信息如下:");	
 				System.out.println("\n"+"丨"+student[i].getStuid()+"\t" +"丨"+student[i].getName()+"\t"+"丨"+student[i].getSex()+"\t"+"丨"+student[i].getAge()+"\t"+"丨"+student[i].getGrade()+"\t"+"丨"+student[i].getAddr()+"\t"+"丨"+student[i].getPhone()+"\t"+"丨"+student[i].getEmail());	
 				System.out.println("请确认是否删除:       1.是                        2.否       "+"\n");
@@ -265,7 +266,7 @@ public class FunctionalImpl implements Functional {     //定义一个数组用来存储学
 	
 		}
 		if(x2==true) {
-		System.out.println("您输入的ID不存在，请重新输入：");
+		System.out.println("您输入的ID不存在!!!");
 		test2(student);
 		}
 	}
