@@ -18,7 +18,7 @@ public class Application {
 	}
 
 	public static void InitData1(Student[] student){                          //存储学生数组的初始化
-		Student s=new Student(2014,"韩艳祖","男",25,"高级","山西朔州","18434260817","1416949284@qq.con");
+		Student s=new Student(2014,"韩艳祖","男",88,25,"高级","山西朔州","18434260817","1416949284@qq.con");
 		student[0]=s;
 	}  
 }

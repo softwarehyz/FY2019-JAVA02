@@ -13,10 +13,26 @@ public class FunctionalImpl implements Functional {     //定义一个数组用来存储学
 	 boolean x=false;
 	   public  void CheckInfo(Student[] student){                     //查看所有学生信息
     	System.out.println("\n"+ "--------------------------------------所有学生信息如下------------------------------------------" + "\n");
-		System.out.println("\n"+ "丨学号"+"\t" +"丨姓名"+"\t"+"丨性别"+"\t"+"丨年龄"+"\t"+"丨年级"+"\t"+"丨住址"+"\t"+"丨联系方式"+"\t"+"\t"+"丨邮箱");	    	
+		System.out.println("\n"+ "丨学号"+"\t" +"丨姓名"+"\t"+"丨性别"+"\t"+"丨成绩"+"\t"+"丨年龄"+"\t"+"丨年级"+"\t"+"丨住址"+"\t"+"丨联系方式"+"\t"+"\t"+"丨邮箱");	 
+		//让学生信息按照成绩从高到低排序输出
+		Student s1=new Student();
+		
 		    for(int i=0;i<student.length;i++) {
 		    	if(student[i]!=null) {		
-			System.out.println("\n"+"丨"+student[i].getStuid()+"\t" +"丨"+student[i].getName()+"\t"+"丨"+student[i].getSex()+"\t"+"丨"+student[i].getAge()+"\t"+"丨"+student[i].getGrade()+"\t"+"丨"+student[i].getAddr()+"\t"+"丨"+student[i].getPhone()+"\t"+"丨"+student[i].getEmail());	
+		    	for(int j=0;j<student.length-1-i;j++) {
+		    		if(student[j]!=null&&student[j+1]!=null) {
+		    		if(student[j].getScore()<student[j+1].getScore()) {
+		    			s1=student[j];
+		    			student[j]=student[j+1];
+		    			student[j+1]=s1;
+		    		}
+		    	}
+		    }
+		 }
+	 }	
+		    for(int i=0;i<student.length;i++) {
+		    	if(student[i]!=null) {		
+			System.out.println("\n"+"丨"+student[i].getStuid()+"\t" +"丨"+student[i].getName()+"\t"+"丨"+student[i].getSex()+"\t"+"丨"+student[i].getScore()+"\t"+"丨"+student[i].getAge()+"\t"+"丨"+student[i].getGrade()+"\t"+"丨"+student[i].getAddr()+"\t"+"丨"+student[i].getPhone()+"\t"+"丨"+student[i].getEmail());	
 		    	}continue;
 		 
 		    }
@@ -54,6 +70,9 @@ public class FunctionalImpl implements Functional {     //定义一个数组用来存储学
     	System.out.print("请输入学生性别："); 
     	String sex1=scan.next(); 
     	scan.nextLine();
+    	System.out.print("请输入学生成绩："); 
+    	int score1=scan.nextInt(); 
+    	scan.nextLine();
     	System.out.print("请输入学生年龄(只能1-120之间的数字)："); 
     	int age1=scan.nextInt(); 
     	scan.nextLine();
@@ -74,6 +93,7 @@ public class FunctionalImpl implements Functional {     //定义一个数组用来存储学
 		s.setStuid(stuid);
 		s.setName(name1);
 		s.setSex(sex1);
+		s.setScore(score1);
 		s.setAge(age1);
 		s.setGrade(grade1);
 		s.setAddr(addr1);
@@ -102,7 +122,7 @@ public class FunctionalImpl implements Functional {     //定义一个数组用来存储学
 			if(student[i].getStuid()==num) {    //判断输入的学号是否与数组中取出的相等
 				x=false;    //用布尔类型的一个变量来判断输入的学号是否存在
 				System.out.println("您要删除的学生信息如下:");	
-				System.out.println("\n"+"丨"+student[i].getStuid()+"\t" +"丨"+student[i].getName()+"\t"+"丨"+student[i].getSex()+"\t"+"丨"+student[i].getAge()+"\t"+"丨"+student[i].getGrade()+"\t"+"丨"+student[i].getAddr()+"\t"+"丨"+student[i].getPhone()+"\t"+"丨"+student[i].getEmail());	
+				System.out.println("\n"+"丨"+student[i].getStuid()+"\t" +"丨"+student[i].getName()+"\t"+"丨"+student[i].getSex()+"\t"+"丨"+student[i].getScore()+"\t"+"丨"+student[i].getAge()+"\t"+"丨"+student[i].getGrade()+"\t"+"丨"+student[i].getAddr()+"\t"+"丨"+student[i].getPhone()+"\t"+"丨"+student[i].getEmail());	
 				System.out.println("请确认是否删除:       1.是                        2.否       "+"\n");
 				System.out.print("请输入:");
 				int num1=scan.nextInt();
@@ -113,7 +133,7 @@ public class FunctionalImpl implements Functional {     //定义一个数组用来存储学
 							continue;
 						}	
 						if(student[i].getStuid()!=student[j].getStuid()) {
-							Student s=new Student(student[j].getStuid(),student[j].getName(),student[j].getSex(),student[j].getAge(),student[j].getGrade(),student[j].getAddr(),student[j].getPhone(),student[j].getEmail());
+							Student s=new Student(student[j].getStuid(),student[j].getName(),student[j].getSex(),student[j].getScore(),student[j].getAge(),student[j].getGrade(),student[j].getAddr(),student[j].getPhone(),student[j].getEmail());
 							for(int k=0;k<student1.length;k++) {
 								if(student1[k]==null) {
 									student1[k]=s;
@@ -182,7 +202,7 @@ public class FunctionalImpl implements Functional {     //定义一个数组用来存储学
 			x1=false;
 			if(student[i].getStuid()==t1) {
 				System.out.println("您要修改的学生信息如下:");	
-				System.out.println("\n"+"丨"+student[i].getStuid()+"\t" +"丨"+student[i].getName()+"\t"+"丨"+student[i].getSex()+"\t"+"丨"+student[i].getAge()+"\t"+"丨"+student[i].getGrade()+"\t"+"丨"+student[i].getAddr()+"\t"+"丨"+student[i].getPhone()+"\t"+"丨"+student[i].getEmail()+"\n");
+				System.out.println("\n"+"丨"+student[i].getStuid()+"\t" +"丨"+student[i].getName()+"\t"+"丨"+student[i].getSex()+"\t"+"丨"+student[i].getScore()+"\t"+"丨"+student[i].getAge()+"\t"+"丨"+student[i].getGrade()+"\t"+"丨"+student[i].getAddr()+"\t"+"丨"+student[i].getPhone()+"\t"+"丨"+student[i].getEmail()+"\n");
 				System.out.print("请输入修改后ID：");	
 				int a=scan.nextInt();
 				student[i].setStuid(a);
@@ -192,9 +212,12 @@ public class FunctionalImpl implements Functional {     //定义一个数组用来存储学
 				System.out.print("请输入修改后Sex：");	
 				String c=scan.next();
 				student[i].setSex(c);
-				System.out.print("请输入修改后Age：");	
+				System.out.print("请输入修改后Score：");	
 				int d=scan.nextInt();
 				student[i].setAge(d);
+				System.out.print("请输入修改后Age：");	
+				int n=scan.nextInt();
+				student[i].setScore(n);
 				System.out.print("请输入修改后Grade：");	
 				String e=scan.next();
 				student[i].setGrade(e);
@@ -237,7 +260,7 @@ public class FunctionalImpl implements Functional {     //定义一个数组用来存储学
 			x2=false;
 			if(student[i].getStuid()==t2) {
 				System.out.println("您要修改的学生信息如下:");	
-				System.out.println("\n"+"丨"+student[i].getStuid()+"\t" +"丨"+student[i].getName()+"\t"+"丨"+student[i].getSex()+"\t"+"丨"+student[i].getAge()+"\t"+"丨"+student[i].getGrade()+"\t"+"丨"+student[i].getAddr()+"\t"+"丨"+student[i].getPhone()+"\t"+"丨"+student[i].getEmail()+"\n");
+				System.out.println("\n"+"丨"+student[i].getStuid()+"\t" +"丨"+student[i].getName()+"\t"+"丨"+student[i].getSex()+"\t"+"丨"+student[i].getScore()+"\t"+"丨"+student[i].getAge()+"\t"+"丨"+student[i].getGrade()+"\t"+"丨"+student[i].getAddr()+"\t"+"丨"+student[i].getPhone()+"\t"+"丨"+student[i].getEmail()+"\n");
 				System.out.println("请输入要修改的属性：");	 
 				String t3=scan.next();
 				System.out.println("请输入修改后的值：");	 
@@ -246,6 +269,8 @@ public class FunctionalImpl implements Functional {     //定义一个数组用来存储学
 					student[i].setName(t4);
 				}else if(t3.equals("sex")) {
 					student[i].setSex(t4);
+				}else if(t3.equals("score")) {
+					student[i].setScore(Integer.valueOf(t4));
 				}else if(t3.equals("age")) {
 					student[i].setAge(Integer.valueOf(t4));
 				}else if(t3.equals("grade")) {
