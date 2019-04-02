@@ -9,10 +9,9 @@ import com.hyz0401.pojo.User;
 import com.hyz0401.service.impl.FunctionalImpl;
 import com.hyz0401.view.UserView;
 
-
 public class UserViewImpl implements UserView {
-FunctionalImpl F1=new FunctionalImpl();
-	
+//FunctionalImpl F1=new FunctionalImpl();
+	FunctionalImpl F2=FunctionalImpl.getInstance();
 	public void welcome(){                        //欢迎界面
 		System.out.println("\n"+"·············欢迎登陆学生管理系统·············" + "\n"+ "\n"  +"\t" +"\t"+ "1.登陆" + "\t" +"\t"+"\t"+"\t"+ "2.退出" + "\n"+ "\n" + "····································"+ "\n");		
 		}
@@ -63,7 +62,7 @@ FunctionalImpl F1=new FunctionalImpl();
 		
 	}
 	
-	public  void operation2(List<Student> student){                     //选择如何操作学生信息
+	public  void operation2(/*List<Student> student*/){                     //选择如何操作学生信息
 		System.out.println("\n"+ "--------------------------------------请选择您要进行的操作------------------------------------------" + "\n");
 		System.out.println("*"+"\t"+"1.查看学生信息"+"\t"+"2.添加学生信息"+"\t"+"3.删除学生信息"+"\t"+"4.修改学生信息"+"\t"+"5.退出"+"\t"+"*");
 		System.out.println("\n"+ "----------------------------------------------------------------------------------------------------" + "\n");
@@ -73,20 +72,20 @@ FunctionalImpl F1=new FunctionalImpl();
 		int select=scan.nextInt();
 		switch(select){
 		case 1:
-		F1.CheckInfo(student);//查看学生信息
-		operation2(student);
+		F2.CheckInfo(/*student*/);//查看学生信息
+		operation2(/*student*/);
 		break;
 		case 2:
-		F1.AddInfo(student);//添加学生信息
-		operation2(student);
+		F2.AddInfo(/*student*/);//添加学生信息
+		operation2(/*student*/);
 		break;
 		case 3:
-		F1.DelInfo(student);//删除学生信息
-		operation2(student);
+		F2.DelInfo(/*student*/);//删除学生信息
+		operation2(/*student*/);
 		break;
 		case 4:
-		F1.AlterInfo(student);//修改学生信息
-		operation2(student);
+		F2.AlterInfo(/*student*/);//修改学生信息
+		operation2(/*student*/);
 		break;
 		case 5:
 		System.out.println("系统退出成功！");
@@ -94,7 +93,7 @@ FunctionalImpl F1=new FunctionalImpl();
 		break;
 		default:
 		System.out.println("\n"+"少年，请认真输入！"+"\n");
-		operation2(student);
+		operation2(/*student*/);
 		   }
 		}
 	
@@ -110,6 +109,7 @@ FunctionalImpl F1=new FunctionalImpl();
 		//将char数组类型转换为String类型保存到result
 		//String result = new String(ch);//方法一：直接使用构造方法      String(char[] value) ：分配一个新的 String，使其表示字符数组参数中当前包含的字符序列。
 		String result = String.valueOf(ch);//方法二： String方法   valueOf(char c) ：返回 char 参数的字符串表示形式。
+		System.out.print("验证码：");
 		System.out.println(result);
 		Scanner scan=new Scanner(System.in);
 		System.out.println("请输入验证码(不区分大小写)：");

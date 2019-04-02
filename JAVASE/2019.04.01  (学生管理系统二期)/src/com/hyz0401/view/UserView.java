@@ -9,5 +9,5 @@ public interface UserView {
 	void welcome();
 	void operation1();
 	void login(User[] user);
-	void operation2(List<Student> student); 
+	void operation2(/*List<Student> student*/); 
 }
