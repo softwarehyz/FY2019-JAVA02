@@ -7,13 +7,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+import com.hyz0401.pojo.Grade;
 import com.hyz0401.pojo.Student;
 import com.hyz0401.pojo.User;
 import com.hyz0401.service.Functional;
+import com.hyz0401.view.impl.UserViewImpl;
+
 import java.util.Scanner;
 
 public class FunctionalImpl implements Functional {    
-	 //UserViewImpl u1=new UserViewImpl();
+	//UserViewImpl u1=new UserViewImpl();
 	private static FunctionalImpl F1;
 	private List<Student> student=new ArrayList<Student>();         //定义一个数组用来存储学生信息
 	 
@@ -32,11 +35,10 @@ public class FunctionalImpl implements Functional {
 		}
 			return F1;
 	}
-
 	
 	boolean x=false;
-	   public  void CheckInfo(/*List<Student> student*/){                     //查看所有学生信息
-		   look(/*student*/);	
+	   //public  void CheckInfo(/*List<Student> student*/){                     //查看所有学生信息
+		  // look(/*student*/);	
 		  /**  Student s1=new Student();
 		       for(int i=0;i<student.size();i++) {
 		    	if(student.get(i)!=null) {		
@@ -51,7 +53,7 @@ public class FunctionalImpl implements Functional {
 		    }
 		 }
 	 }	*/
-  }
+ // }
 	    
 	public  void AddInfo(/*List<Student> student*/) {                             //添加学生的方法
 		// TODO Auto-generated method stub
@@ -85,9 +87,7 @@ public class FunctionalImpl implements Functional {
     	System.out.print("请输入学生年龄(只能1-120之间的数字)："); 
     	int age1=scan.nextInt(); 
     	scan.nextLine();
-    	System.out.print("请输入学生所属年级(只能初级、中级、高级)："); 
-    	String grade1=scan.next(); 
-    	scan.nextLine();
+        String s1=choice();
     	System.out.print("请输入学生地址："); 
     	String addr1=scan.next();
     	scan.nextLine();
@@ -105,58 +105,39 @@ public class FunctionalImpl implements Functional {
 		s.setSex(sex1);
 		s.setScore(score1);
 		s.setAge(age1);
-		s.setGrade(grade1);
+		s.setGrade(s1);
 		s.setAddr(addr1);
 		s.setPhone(phone1);
 		s.setEmail(email1);
 		s.setAdd_date(add_date);
 		//把学生对象添加到集合
-		for(int i=0;i<student.size();i++) {
-				student.add(i,s);	
-				break;
-		}
+		student.add(s);	
 		System.out.println("添加学生成功！");
 		System.out.println("系统自动返回上一级......");
 	   }
 	}	
 	public  void DelInfo(/*List<Student> student*/) {        //删除学生的方法
-		Scanner scan= new Scanner(System.in);
-		System.out.println("请输入您要删除的学生ID:");
-		int num=scan.nextInt();
-		for(int i=0;i<student.size();i++) {
-			if(student.get(i)==null) {
-			continue;	
-			}
-			if(student.get(i).getStuid()==num) {    //判断输入的学号是否与数组中取出的相等
-				x=false;    //用布尔类型的一个变量来判断输入的学号是否存在
+				Scanner scan= new Scanner(System.in);
+				System.out.println("请输入您要删除的学生ID:");
+				int num=scan.nextInt();
+				Student str=testFind1(num);   //二分查找判断学生是否存在
+				if(str!=null) {
 				System.out.println("您要删除的学生信息如下:");	
-				System.out.println("\n"+"丨"+student.get(i).getStuid()+"\t" +"丨"+student.get(i).getName()+"\t"+"丨"+student.get(i).getSex()+"\t"+"丨"+student.get(i).getScore()+"\t"+"丨"+student.get(i).getAge()+"\t"+"丨"+student.get(i).getGrade()+"\t"+"丨"+student.get(i).getAddr()+"\t"+"丨"+student.get(i).getPhone()+"\t"+"丨"+student.get(i).getEmail());	
+				System.out.println("\n"+"丨"+str.getStuid()+"\t" +"丨"+str.getName()+"\t"+"丨"+str.getSex()+"\t"+"丨"+str.getScore()+"\t"+"丨"+str.getAge()+"\t"+"丨"+str.getGrade()+"\t"+"丨"+str.getAddr()+"\t"+"丨"+str.getPhone()+"\t"+"丨"+str.getEmail());	
 				System.out.println("请确认是否删除:       1.是                        2.否       "+"\n");
 				System.out.print("请输入:");
 				int num1=scan.nextInt();
 				if(num1==1) {
-					student.remove(i);
+					student.remove(str);
 					System.out.println("删除成功");	
-					break;
 				}else if(num1==2) {
 					System.out.println("取消成功");	
-					break;
 				}else {
 					System.out.println("乱输入的后果就是重新来过！！");
 					DelInfo(/*student*/); 
-					break;
-				}
-			}else {
-				x=true;
-			}
-			
-		}
-		if(x==true) {
-			System.out.println("您要删除的学生不存在");	
-			DelInfo(/*student*/);
-		}
-		
-	}                                                  //删除学生方法完毕
+				 }
+             }     
+		}                                            //删除学生方法完毕
 	
 	
 	public  void AlterInfo(/*List<Student> student*/) {        //修改学生信息的方法
@@ -167,7 +148,7 @@ public class FunctionalImpl implements Functional {
 		System.out.print("请输入您要进行的操作");	
 		Scanner scan= new Scanner(System.in);
 		int t=scan.nextInt();
-		if(t==1) {                                            //根据ID修改学生全部信息
+		if(t==1) {               //根据ID修改学生全部信息
 		test1(/*student*/);
 		}else if(t==2) {
 		test2(/*student*/);	    //根据ID修改学生部分信息
@@ -186,108 +167,78 @@ public class FunctionalImpl implements Functional {
 		Scanner scan= new Scanner(System.in);
 		System.out.print("请输入ID：");	
 		int t1=scan.nextInt();
-		boolean x1=false;
-		for(int i=0;i<student.size();i++) {
-			if(student.get(i)==null) {
-				continue;
-			}
-			x1=false;
-			if(student.get(i).getStuid()==t1) {
+		Student str2=testFind3(t1);
+		if(str2!=null) {
 				System.out.println("您要修改的学生信息如下:");	
-				System.out.println("\n"+"丨"+student.get(i).getStuid()+"\t" +"丨"+student.get(i).getName()+"\t"+"丨"+student.get(i).getSex()+"\t"+"丨"+student.get(i).getScore()+"\t"+"丨"+student.get(i).getAge()+"\t"+"丨"+student.get(i).getGrade()+"\t"+"丨"+student.get(i).getAddr()+"\t"+"丨"+student.get(i).getPhone()+"\t"+"丨"+student.get(i).getEmail()+"\n");
+				System.out.println("\n"+"丨"+str2.getStuid()+"\t" +"丨"+str2.getName()+"\t"+"丨"+str2.getSex()+"\t"+"丨"+str2.getScore()+"\t"+"丨"+str2.getAge()+"\t"+"丨"+str2.getGrade()+"\t"+"丨"+str2.getAddr()+"\t"+"丨"+str2.getPhone()+"\t"+"丨"+str2.getEmail()+"\n");
 				System.out.print("请输入修改后ID：");	
 				int a=scan.nextInt();
-				student.get(i).setStuid(a);
+				str2.setStuid(a);
 				System.out.print("请输入修改后Name：");
 				String b=scan.next();
-				student.get(i).setName(b);
+				str2.setName(b);
 				System.out.print("请输入修改后Sex：");	
 				String c=scan.next();
-				student.get(i).setSex(c);
+				str2.setSex(c);
 				System.out.print("请输入修改后Score：");	
 				int d=scan.nextInt();
-				student.get(i).setAge(d);
+				str2.setAge(d);
 				System.out.print("请输入修改后Age：");	
 				int n=scan.nextInt();
-				student.get(i).setScore(n);
+				str2.setScore(n);
 				System.out.print("请输入修改后Grade：");	
 				String e=scan.next();
-				student.get(i).setGrade(e);
+				str2.setGrade(e);
 				System.out.print("请输入修改后Addr：");
 				String f=scan.next();
-				student.get(i).setAddr(f);
+				str2.setAddr(f);
 				System.out.print("请输入修改后Phone：");	
 				String g=scan.next();
-				student.get(i).setPhone(g);
+				str2.setPhone(g);
 				System.out.print("请输入修改后Email：");	
 				String h=scan.next();
-				student.get(i).setEmail(h);
-				System.out.println("修改成功！自动返回上一级......");
-				AlterInfo(/*student*/);
-				break;	
-			}else {
-				x1=true;
-			}
-	
-		}
-		if(x1==true) {
-			System.out.println("您输入的ID不存在，请重新来过!!!");
-			test1(/*student*/);
-		}
-		
+				str2.setEmail(h);
 		//u1.operation2(student);
-	}
-	
-	
+	   }
+		System.out.println("修改成功！自动返回上一级......");
+		AlterInfo(/*student*/);
+    }	
 	public  void test2(/*List<Student> student*/) {              //修改学生部分信息方法
 		
 		Scanner scan= new Scanner(System.in);
 		System.out.println("请输入ID：");	
 		int t2=scan.nextInt();
-		boolean x2=false;
-		for(int i=0;i<student.size();i++) {
-			if(student.get(i)==null) {
-				continue;
-			}
-			x2=false;
-			if(student.get(i).getStuid()==t2) {
+		        Student str1=testFind2(t2);
+		        if(str1!=null) {
 				System.out.println("您要修改的学生信息如下:");	
-				System.out.println("\n"+"丨"+student.get(i).getStuid()+"\t" +"丨"+student.get(i).getName()+"\t"+"丨"+student.get(i).getSex()+"\t"+"丨"+student.get(i).getScore()+"\t"+"丨"+student.get(i).getAge()+"\t"+"丨"+student.get(i).getGrade()+"\t"+"丨"+student.get(i).getAddr()+"\t"+"丨"+student.get(i).getPhone()+"\t"+"丨"+student.get(i).getEmail()+"\n");
+				System.out.println("\n"+"丨"+str1.getStuid()+"\t" +"丨"+str1.getName()+"\t"+"丨"+str1.getSex()+"\t"+"丨"+str1.getScore()+"\t"+"丨"+str1.getAge()+"\t"+"丨"+str1.getGrade()+"\t"+"丨"+str1.getAddr()+"\t"+"丨"+str1.getPhone()+"\t"+"丨"+str1.getEmail()+"\n");
 				System.out.println("请输入要修改的属性：");	 
 				String t3=scan.next();
 				System.out.println("请输入修改后的值：");	 
 				String t4=scan.next();
 				if(t3.equals("name")) {
-					student.get(i).setName(t4);
+					str1.setName(t4);
 				}else if(t3.equals("sex")) {
-					student.get(i).setSex(t4);
+					str1.setSex(t4);
 				}else if(t3.equals("score")) {
-					student.get(i).setScore(Integer.valueOf(t4));
+					str1.setScore(Integer.valueOf(t4));
 				}else if(t3.equals("age")) {
-					student.get(i).setAge(Integer.valueOf(t4));
+					str1.setAge(Integer.valueOf(t4));
 				}else if(t3.equals("grade")) {
-					student.get(i).setGrade(t4);
+					str1.setGrade(t4);
 				}else if(t3.equals("addr")) {
-					student.get(i).setAddr(t4);
+					str1.setAddr(t4);
 				}else if(t3.equals("phone")) {
-					student.get(i).setPhone(t4);
+					str1.setPhone(t4);
 				}else if(t3.equals("email")) {
-					student.get(i).setEmail(t4);
+					str1.setEmail(t4);
 				}
-				System.out.println("修改成功！自动返回上一级......");
-				AlterInfo(/*student*/);
-				break;	
-			}else {
-				x2=true;
-			}
-		}
-		if(x2==true) {
-		System.out.println("您输入的ID不存在!!!");
-		test2(/*student*/);
-		}
+		}	
+		System.out.println("修改成功！自动返回上一级......");
+		AlterInfo(/*student*/);
 	}
 	
-	public void look(/*List<Student> student*/) {                                      //选择查看方式可以选降序也可以选升序
+	public void look(/*List<Student> student*/) {   //选择查看方式可以选降序也可以选升序
 		
 		System.out.println("\n"+ "-------------------------------------------------------------------------------------------" + "\n");
 		System.out.println("*"+"\t"+"1.成绩升序查看"+"\t"+"2.成绩降序查看"+"\t"+"3.ID查询学生"+"\t"+"4.返回上一级"+"\t"+"*");
@@ -311,7 +262,7 @@ public class FunctionalImpl implements Functional {
 			    }
 			    System.out.println("\n"+ "------------------------------------------------------------------------------------------------" + "\n");		    
 			    System.out.println("自动返回上一级......");
-			    CheckInfo(/*student*/);	
+			    look(/*student*/);	
 	    }else if(n==2) {
 	    	System.out.println("\n"+ "--------------------------------------所有学生信息如下------------------------------------------" + "\n");
 			System.out.println("\n"+ "丨学号"+"\t" +"丨姓名"+"\t"+"丨性别"+"\t"+"丨成绩"+"\t"+"丨年龄"+"\t"+"丨年级"+"\t"+"丨住址"+"\t"+"丨联系方式"+"\t"+"\t"+"丨邮箱"+"\t"+"\t"+"丨注册时间");	 
@@ -329,52 +280,219 @@ public class FunctionalImpl implements Functional {
 			    }
 				    System.out.println("\n"+ "------------------------------------------------------------------------------------------------" + "\n");		    
 				    System.out.println("自动返回上一级......");
-				    CheckInfo(/*student*/);	
+				    look(/*student*/);	
 	    }else if(n==3) {
-	    	testFind();	
+	    	findStudent() ;
 	    }else if(n==4) {
-	    //返回上一级
+	        //返回上一级
 	    }else {
 	    	System.out.println("少年别乱来，请再次选择您要进行的操作");
 	    	look(/*student*/);
 	    }
 	}
 
-	public  void testFind() {   //循环实现
-		Scanner s1= new Scanner(System.in);
-		System.out.print("请输入您要查找的学生ID:");   
-		int c=s1.nextInt();
+	
+	public  Student testFind(int c) {   //用ID二分查找对应学生
 		Student s=new Student();
+		//System.out.println(student.size());
 		for(int i=0;i<student.size();i++) {
 			for(int j=0;j<student.size()-i-1;j++) {
+				if(student.get(j)!=null&&student.get(j+1)!=null) {
 				if(student.get(j).getStuid()>student.get(j+1).getStuid()) {
 					s=student.get(j);
-					student.add(j, student.get(j+1));
-					student.add(j+1, s);
+					student.set(j, student.get(j+1));
+					student.set(j+1, s);
+				  }
 				}
 			}
 		}	
 		int a=0;
 		int b=student.size()-1;
 		int k=(a+b)/2;
+		boolean sf=false;
 		while(a<=b) {
 		if(c>student.get(k).getStuid()) {
 			a=k+1; 
 		   }else if(c<student.get(k).getStuid()) {
 			b=k-1;
 		   }else {
-			   System.out.println("您要查找的学生信息如下:");	
-				System.out.println("\n"+"丨"+student.get(k).getStuid()+"\t" +"丨"+student.get(k).getName()+"\t"+"丨"+student.get(k).getSex()+"\t"+"丨"+student.get(k).getScore()+"\t"+"丨"+student.get(k).getAge()+"\t"+"丨"+student.get(k).getGrade()+"\t"+"丨"+student.get(k).getAddr()+"\t"+"丨"+student.get(k).getPhone()+"\t"+"丨"+student.get(k).getEmail()+"\n");
-				System.out.println("\n"+ "-------------------------------------------------------------------------------------------" + "\n");
-				System.out.println("自动返回上一级......");
-			    CheckInfo(/*student*/);	
+			    sf=true;
+			    break;
 		   }
 		 k=(a+b)/2;
 		}
-		System.out.println("您要查找的学生不存在！！");
-		testFind();
+		
+	    if(!sf) {
+	    	System.out.println("您要查找的学生不存在！！");
+	    	findStudent();
+	    }else {
+	    return student.get(k);
+	    }
+	    Student sempty=new Student();
+	    return sempty;
 	}
+	
+	//二分查找(用于查看)
+	
+	public  Student testFind1(int c) {   //用ID二分删除对应学生
+		Student s=new Student();
+		//System.out.println(student.size());
+		for(int i=0;i<student.size();i++) {
+			for(int j=0;j<student.size()-i-1;j++) {
+				if(student.get(j)!=null&&student.get(j+1)!=null) {
+				if(student.get(j).getStuid()>student.get(j+1).getStuid()) {
+					s=student.get(j);
+					student.set(j, student.get(j+1));
+					student.set(j+1, s);
+				  }
+				}
+			}
+		}	
+		int a=0;
+		int b=student.size()-1;
+		int k=(a+b)/2;
+		boolean sf=false;
+		while(a<=b) {
+		if(c>student.get(k).getStuid()) {
+			a=k+1; 
+		   }else if(c<student.get(k).getStuid()) {
+			b=k-1;
+		   }else {
+			    sf=true;
+			    break;
+		   }
+		 k=(a+b)/2;
+		}
+		
+	    if(!sf) {
+	    	System.out.println("您要查找的学生不存在！！");
+	    	DelInfo();
+	    }else {
+	    return student.get(k);
+	    }
+	    Student sempty=new Student();
+	    return sempty;
+	}
+	
+	//二分查找(用于删除学生)
+	
+	public  Student testFind2(int c) {   //用ID二分修改学生部分属性
+		Student s=new Student();
+		//System.out.println(student.size());
+		for(int i=0;i<student.size();i++) {
+			for(int j=0;j<student.size()-i-1;j++) {
+				if(student.get(j)!=null&&student.get(j+1)!=null) {
+				if(student.get(j).getStuid()>student.get(j+1).getStuid()) {
+					s=student.get(j);
+					student.set(j, student.get(j+1));
+					student.set(j+1, s);
+				  }
+				}
+			}
+		}	
+		int a=0;
+		int b=student.size()-1;
+		int k=(a+b)/2;
+		boolean sf=false;
+		while(a<=b) {
+		if(c>student.get(k).getStuid()) {
+			a=k+1; 
+		   }else if(c<student.get(k).getStuid()) {
+			b=k-1;
+		   }else {
+			    sf=true;
+			    break;
+		   }
+		 k=(a+b)/2;
+		}
+		
+	    if(!sf) {
+	    	System.out.println("您要查找的学生不存在！！");
+	    	test2();
+	    }else {
+	    return student.get(k);
+	    }
+	    Student sempty=new Student();
+	    return sempty;
+	}
+	
+	//二分查找(用于修改学生部分属性)
+	
+	
+	public  Student testFind3(int c) {   //用ID二分修改学生全部属性
+		Student s=new Student();
+		//System.out.println(student.size());
+		for(int i=0;i<student.size();i++) {
+			for(int j=0;j<student.size()-i-1;j++) {
+				if(student.get(j)!=null&&student.get(j+1)!=null) {
+				if(student.get(j).getStuid()>student.get(j+1).getStuid()) {
+					s=student.get(j);
+					student.set(j, student.get(j+1));
+					student.set(j+1, s);
+				  }
+				}
+			}
+		}	
+		int a=0;
+		int b=student.size()-1;
+		int k=(a+b)/2;
+		boolean sf=false;
+		while(a<=b) {
+		if(c>student.get(k).getStuid()) {
+			a=k+1; 
+		   }else if(c<student.get(k).getStuid()) {
+			b=k-1;
+		   }else {
+			    sf=true;
+			    break;
+		   }
+		 k=(a+b)/2;
+		}
+		
+	    if(!sf) {
+	    	System.out.println("您要查找的学生不存在！！");
+	    	test1();
+	    }else {
+	    return student.get(k);
+	    }
+	    Student sempty=new Student();
+	    return sempty;
+	}
+	
+	//二分查找(用于修改学生全部属性)
+	
+    public  String choice() {                                        //枚举类型选择年级
+    	Scanner scan= new Scanner(System.in);
+    	System.out.println("学生所属年级：1.高级      2.中级      3.初级"); 
+    	System.out.print("请选择:"); 
+    	int n=scan.nextInt(); 
+        switch(n) {
+        case 1:
+    		System.out.println(Grade.MAX_GRADE.getGrade().toString());
+    		return Grade.MAX_GRADE.getGrade();
+        case 2:
+    		System.out.println(Grade.MID_GRADE.getGrade().toString());
+    		return Grade.MID_GRADE.getGrade();
+        case 3:
+    		System.out.println(Grade.MIN_GRADE.getGrade().toString());
+    		return Grade.MIN_GRADE.getGrade();
+        default:
+    		System.out.println("选择有误，请重新选择");
+    		choice();
+          }
+        return "";
+     }
+    
+    public void findStudent() {
+    	Scanner scan1= new Scanner(System.in);
+		System.out.print("输入学生ID:");
+	    int f=scan1.nextInt();	
+    	Student s5=testFind(f);
+    	if(s5!=null) {
+    	System.out.println("您要查询的学生信息如下:");	
+		System.out.println("\n"+"丨"+s5.getStuid()+"\t" +"丨"+s5.getName()+"\t"+"丨"+s5.getSex()+"\t"+"丨"+s5.getScore()+"\t"+"丨"+s5.getAge()+"\t"+"丨"+s5.getGrade()+"\t"+"丨"+s5.getAddr()+"\t"+"丨"+s5.getPhone()+"\t"+"丨"+s5.getEmail()+"\n");
+		System.out.println("自动返回上一级......");
+		look(/*student*/);	
+        }
+    }  
 }
-
-
-

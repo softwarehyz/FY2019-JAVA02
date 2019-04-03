@@ -55,11 +55,8 @@ public class UserViewImpl implements UserView {
 			}else{	
 				System.out.println("验证身份失败，请重新输入");
 				login(user);
-			    }
-		    }	
-			
-			
-		
+			}
+		}	
 	}
 	
 	public  void operation2(/*List<Student> student*/){                     //选择如何操作学生信息
@@ -72,7 +69,7 @@ public class UserViewImpl implements UserView {
 		int select=scan.nextInt();
 		switch(select){
 		case 1:
-		F2.CheckInfo(/*student*/);//查看学生信息
+		F2.look(/*student*/);//查看学生信息
 		operation2(/*student*/);
 		break;
 		case 2:
