@@ -1,6 +1,10 @@
-package com.hyz0401.pojo;
+package com.hyz0408.pojo;
 
-public class Student implements Comparable<Student> {                               //学生类
+import java.util.Comparator;
+
+import com.hyz0408.pojo.Student;
+
+public class Student {                               //学生类
 	public int stuid;
 	public String name;
 	public String sex;
@@ -27,17 +31,6 @@ public class Student implements Comparable<Student> {                           
 	this.email=email;
 	this.add_date=add_date;
 	}
-	public Student(int stuid,String name,String sex,int score,int age,String grade,String addr,String phone,String email){
-		this.stuid=stuid;
-		this.name=name;
-		this.sex=sex;
-		this.score=score;
-		this.age=age;
-		this.grade=grade;
-		this.addr=addr;
-		this.phone=phone;
-		this.email=email;
-		}
 	
 	public int getStuid(){
 		return stuid;
@@ -117,12 +110,5 @@ public class Student implements Comparable<Student> {                           
 	
 	public void setAdd_date(long add_date){
 		this.add_date=add_date;
-	}
-	
-	
-	@Override
-	public int compareTo(Student o) {
-		// TODO Auto-generated method stub
-		return this.score-o.score;
 	}
 }
