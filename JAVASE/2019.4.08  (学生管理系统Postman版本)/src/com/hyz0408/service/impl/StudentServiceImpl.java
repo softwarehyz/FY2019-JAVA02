@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import com.google.gson.Gson;
 import com.hyz0408.common.Constant;
@@ -21,7 +22,7 @@ public class StudentServiceImpl implements StudentService {
     
 	//UserViewImpl u1=new UserViewImpl();
 	private static StudentServiceImpl F1;
-	private Map<Integer,Student> student=new HashMap<Integer,Student>();         //定义一个数组用来存储学生信息
+	private Map<Integer,Student> student=new TreeMap<Integer,Student>();         //定义一个数组用来存储学生信息
 	 
 	private StudentServiceImpl() {
 		Student s=new Student(2014,"韩艳祖","男",88,25,"高级","山西朔州","18434260817","14169@qq.cn",1554132344000L);
@@ -39,10 +40,28 @@ public class StudentServiceImpl implements StudentService {
 			return F1;
 	}	
 	
-	//查看所有学生信息
+	//查看所有学生信息（无序）
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ServerResponse ViewInfo(){	
 		return ServerResponse.createServerResponseBySucess("获取学生信息成功",student.values());
 	}
+	
+	/*
+	 * //成绩升序查看
+	 * 
+	 * @SuppressWarnings("rawtypes") public ServerResponse ScoreRise(){
+	 * 
+	 * 
+	 * return ServerResponse.createServerResponseBySucess("按成绩升序排序成功",list); }
+	 * 
+	 * //成绩降序查看
+	 * 
+	 * @SuppressWarnings("rawtypes") public ServerResponse ScoreDown(){
+	 * 
+	 * 
+	 * return ServerResponse.createServerResponseBySucess("按成绩降序排序成功",list); }
+	 */
+	
 	//按照ID查看学生
 	@SuppressWarnings("unchecked")
 	public ServerResponse<Student> ViewByID(int ID) {

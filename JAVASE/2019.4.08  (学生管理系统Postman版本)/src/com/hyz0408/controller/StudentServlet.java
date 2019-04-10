@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.hyz0408.common.Rise_Down;
 import com.hyz0408.common.ServerResponse;
 import com.hyz0408.common.StudentOperation;
 import com.hyz0408.pojo.Student;
@@ -40,9 +41,9 @@ public class StudentServlet extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("test/html;charset=utf-8");
-		 String view=request.getParameter("ViewWay");//选择查看方式
+		
+		 String view=request.getParameter("ViewWay");//查看学生信息
+		 String look=request.getParameter("Look");//选择查看方式
 		 String ID=request.getParameter("ID");
 		 String stuid=request.getParameter("stuid");
 		 String name=request.getParameter("name");
@@ -61,9 +62,17 @@ public class StudentServlet extends HttpServlet {
 		
 		int viewway=Integer.parseInt(view);
 		if(viewway==StudentOperation.VIEW_ALL.getViewWay_type()) {
+			/*
+			 * int lookstyle=Integer.parseInt(look);
+			 * if(lookstyle==Rise_Down.RISE_LOOK.getLook_type()) { ServerResponse<Student>
+			 * responseText1=F2.ScoreRise(); pw.write(responseText1.obj2str()); pw.close();
+			 * }else if(lookstyle==Rise_Down.DOWN_LOOK.getLook_type()) {
+			 * ServerResponse<Student> responseText1=F2.ScoreDown();
+			 * pw.write(responseText1.obj2str()); pw.close(); }
+			 */
 			ServerResponse<Student> responseText1=F2.ViewInfo();
-			pw.write(responseText1.obj2str());
-			pw.close();
+			 pw.write(responseText1.obj2str()); 
+			 pw.close(); 
 		}else if(viewway==StudentOperation.VIEW_ID.getViewWay_type()) {
 			 int _ID=Integer.parseInt(ID);
 			ServerResponse<Student> responseText1=F2.ViewByID(_ID);

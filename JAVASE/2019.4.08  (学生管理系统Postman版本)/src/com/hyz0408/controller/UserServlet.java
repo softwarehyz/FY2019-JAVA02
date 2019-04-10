@@ -2,38 +2,34 @@ package com.hyz0408.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.hyz0408.common.BookOperation;
 import com.hyz0408.common.ServerResponse;
+import com.hyz0408.common.UserChoice;
 import com.hyz0408.common.UserOperation;
-import com.hyz0408.common.StudentOperation;
 import com.hyz0408.pojo.Student;
-import com.hyz0408.pojo.User;
-import com.hyz0408.service.impl.StudentServiceImpl;
-import com.hyz0408.service.impl.UserServiceImpl;
+import com.hyz0408.service.impl.CourseServiceImpl;
 
 /**
- * Servlet implementation class Application
+ * Servlet implementation class UserServlet
  */
 @WebServlet("/UserServlet")
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	StudentServiceImpl F2=StudentServiceImpl.getInstance();
+       
     /**
-     * Default constructor. 
+     * @see HttpServlet#HttpServlet()
      */
     public UserServlet() {
+        super();
         // TODO Auto-generated constructor stub
-
     }
 
 	/**
@@ -41,7 +37,46 @@ public class UserServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doPost(request, response);
+		 ServletContext servletContext=request.getServletContext();
+		 PrintWriter pw=response.getWriter();
+		 CourseServiceImpl C2=CourseServiceImpl.getInstance();
+		String userchoice=request.getParameter("UserChoice");
+ 		String bookoperation=request.getParameter("BookOperation");
+ 		String ID=request.getParameter("ID");
+ 		String cname=request.getParameter("Cname");
+ 		int o1=Integer.parseInt(userchoice);
+		if(o1==UserChoice.ONLINE_BUM.getChoose_type()) {
+        	Integer total=(Integer)servletContext.getAttribute("total");
+        	ServerResponse responseText=ServerResponse.createServerResponseBySucess("查看成功", total);
+        	pw.write(responseText.obj2str());
+        }else if(o1==UserChoice.BOOK_OPERATION.getChoose_type()) {
+        	int o2=Integer.parseInt(bookoperation);
+        	if(o2==BookOperation.BOOK_LOOK.getOperation_type()) {
+        		ServerResponse responseText1=C2.ViewCourse();
+   			 pw.write(responseText1.obj2str()); 
+   			 pw.close(); 
+        	}else if(o2==BookOperation.BOOK_LOOKBYID.getOperation_type()) {
+        		int id=Integer.parseInt(ID);
+    			ServerResponse<Student> responseText1=C2.ViewCourseByID(id);
+    			pw.write(responseText1.obj2str());
+    			pw.close();
+        	}else if(o2==BookOperation.BOOK_ADD.getOperation_type()) {
+        		int id=Integer.parseInt(ID);
+    			ServerResponse<Student> responseText1=C2.AddCourse(id,cname);
+    			pw.write(responseText1.obj2str());
+    			pw.close();
+        	}else if(o2==BookOperation.BOOK_ALTER.getOperation_type()) {
+        		int id=Integer.parseInt(ID);
+    			ServerResponse<Student> responseText1=C2.AlterCourse(id,cname);
+    			pw.write(responseText1.obj2str());
+    			pw.close();
+        	}else if(o2==BookOperation.BOOK_DEL.getOperation_type()) {
+        		int id=Integer.parseInt(ID);
+    			ServerResponse<Student> responseText1=C2.DelCourse(id);
+    			pw.write(responseText1.obj2str());
+    			pw.close();
+        	}
+        }
 	}
 
 	/**
@@ -49,33 +84,7 @@ public class UserServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//  1.登陆     2.退出 
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("test/html;charset=utf-8");
-		String operation=request.getParameter("operation");//选择登陆还是退出
-		UserServiceImpl oper=UserServiceImpl.getInstance();
-		PrintWriter pw=response.getWriter();
-        if(operation==null) {                                         //选择登陆还是退出
-        	//返回客户端  提示：operation必须传参数
-        }
-        	int o1=Integer.parseInt(operation);
-        	if(o1==UserOperation.USER_LOGIN.getOperation_type()) {
-        		//进行登陆操作
-        		String username=request.getParameter("username");
-        		String password=request.getParameter("password");
-        		ServerResponse<User> severResponse=oper.login(username, password);               //进行校验
-        		if(severResponse.isSucess()) {
-        			//创建cookie
-        			Cookie username_cookie=new Cookie("username",username);
-        			username_cookie.setMaxAge(7*24*3600);
-        			response.addCookie(username_cookie);
-        			Cookie password_cookie=new Cookie("password",password);  
-        			password_cookie.setMaxAge(7*24*3600);
-        			response.addCookie(password_cookie);
-        		}
-        		pw.write(severResponse.obj2str());
-        }else if(o1==UserOperation.USER_EXITS.getOperation_type()) {
-        	                             //退出操作
-        }
-    }
+		doGet(request, response);
+	}
+
 }

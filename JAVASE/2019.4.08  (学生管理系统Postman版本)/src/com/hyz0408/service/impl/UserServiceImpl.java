@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 			User user1=User.get(username);
 			if(password.equals(user1.getPassword())) {//登录成功
 				
-				return ServerResponse.createServerResponseBySucess();
+				return ServerResponse.createServerResponseBySucess("登陆成功",user1);
 				
 			}else {//username 和password 不匹配
 				return ServerResponse.createServerResponseByFail(Constant.PASSWORD_ERROR, "密码不匹配");	
