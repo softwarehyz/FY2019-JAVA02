@@ -15,11 +15,12 @@ public class Student {                               //学生类
 	public String phone;
 	public String email;
 	public long add_date;
+	public String stuPassword;
 	public Student() {
 		
 	}
 	
-	public Student(int stuid,String name,String sex,int score,int age,String grade,String addr,String phone,String email,long add_date){
+	public Student(int stuid,String name,String sex,int score,int age,String grade,String addr,String phone,String email,long add_date,String stuPassword){
 	this.stuid=stuid;
 	this.name=name;
 	this.sex=sex;
@@ -30,6 +31,7 @@ public class Student {                               //学生类
 	this.phone=phone;
 	this.email=email;
 	this.add_date=add_date;
+	this.stuPassword=stuPassword;
 	}
 	
 	public int getStuid(){
@@ -111,4 +113,13 @@ public class Student {                               //学生类
 	public void setAdd_date(long add_date){
 		this.add_date=add_date;
 	}
+
+	public String getStuPassword() {
+		return stuPassword;
+	}
+
+	public void setStuPassword(String stuPassword) {
+		this.stuPassword = stuPassword;
+	}
+
 }

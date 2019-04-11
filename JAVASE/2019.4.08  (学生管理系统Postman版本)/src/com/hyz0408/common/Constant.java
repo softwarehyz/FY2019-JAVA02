@@ -10,4 +10,7 @@ public class Constant {
 	public static final int ID_IS_EXISTS=15;
 	public static final int ID_NOT_EXISTS=16;
 	public static final int USER_NOT_LOGIN=17;
+	public static final int USER_IS_EXISTS=18;
+	public static final int COURSE_IS_EXISTS=19;
+	public static final int COURSE_NOT_EXISTS=20;
 }

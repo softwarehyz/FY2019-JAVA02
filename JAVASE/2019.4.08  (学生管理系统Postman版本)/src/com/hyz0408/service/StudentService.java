@@ -8,4 +8,5 @@ import com.hyz0408.pojo.Student;
 public interface StudentService {
 	ServerResponse<Student> ViewInfo();
 	ServerResponse ViewByID(int ID);
+	ServerResponse<Student> Stulogin(int stutID,String stuPassword);
 }

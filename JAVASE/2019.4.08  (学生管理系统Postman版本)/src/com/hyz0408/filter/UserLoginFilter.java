@@ -21,7 +21,7 @@ import com.hyz0408.pojo.User;
 /**
  * Servlet Filter implementation class UserLoginFilter
  */
-@WebFilter("/UserServlet")
+@WebFilter({"/UserServlet","/StudentServlet"})
 public class UserLoginFilter implements Filter {
 
     /**

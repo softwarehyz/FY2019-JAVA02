@@ -14,6 +14,7 @@ import com.hyz0408.common.BookOperation;
 import com.hyz0408.common.ServerResponse;
 import com.hyz0408.common.UserChoice;
 import com.hyz0408.common.UserOperation;
+import com.hyz0408.pojo.Course;
 import com.hyz0408.pojo.Student;
 import com.hyz0408.service.impl.CourseServiceImpl;
 
@@ -57,22 +58,22 @@ public class UserServlet extends HttpServlet {
    			 pw.close(); 
         	}else if(o2==BookOperation.BOOK_LOOKBYID.getOperation_type()) {
         		int id=Integer.parseInt(ID);
-    			ServerResponse<Student> responseText1=C2.ViewCourseByID(id);
+    			ServerResponse<Course> responseText1=C2.ViewCourseByID(id);
     			pw.write(responseText1.obj2str());
     			pw.close();
         	}else if(o2==BookOperation.BOOK_ADD.getOperation_type()) {
         		int id=Integer.parseInt(ID);
-    			ServerResponse<Student> responseText1=C2.AddCourse(id,cname);
+    			ServerResponse<Course> responseText1=C2.AddCourse(id,cname);
     			pw.write(responseText1.obj2str());
     			pw.close();
         	}else if(o2==BookOperation.BOOK_ALTER.getOperation_type()) {
         		int id=Integer.parseInt(ID);
-    			ServerResponse<Student> responseText1=C2.AlterCourse(id,cname);
+    			ServerResponse<Course> responseText1=C2.AlterCourse(id,cname);
     			pw.write(responseText1.obj2str());
     			pw.close();
         	}else if(o2==BookOperation.BOOK_DEL.getOperation_type()) {
         		int id=Integer.parseInt(ID);
-    			ServerResponse<Student> responseText1=C2.DelCourse(id);
+    			ServerResponse<Course> responseText1=C2.DelCourse(id);
     			pw.write(responseText1.obj2str());
     			pw.close();
         	}

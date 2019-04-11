@@ -53,7 +53,17 @@ public class UserServiceImpl implements UserService {
 		return ServerResponse.createServerResponseByFail(Constant.USER_NOT_EXISTS, "用户名不存在");
 	}
 	
-	
+	@SuppressWarnings("unchecked")
+	public ServerResponse<User> addUser(String username,String password) {
+		if(User.containsKey(username)) {
+			return ServerResponse.createServerResponseByFail(Constant.USER_IS_EXISTS, "该用户已经存在");
+		}
+		User u3=new User();
+		u3.setName(username);
+		u3.setPassword(password);
+		User.put(u3.getName(),u3);
+		return ServerResponse.createServerResponseBySucess("注册成功！");
+	}
 	
 	
 	

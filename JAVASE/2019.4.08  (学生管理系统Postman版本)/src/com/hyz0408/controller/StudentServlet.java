@@ -54,6 +54,7 @@ public class StudentServlet extends HttpServlet {
 		 String addr=request.getParameter("addr"); 
 		 String phone=request.getParameter("phone"); 
 		 String email=request.getParameter("email"); 
+		 String stupassword=request.getParameter("stupassword"); 
 		 String delID=request.getParameter("delID"); 
 		 String altID=request.getParameter("altID"); 
 		 UserServiceImpl oper=UserServiceImpl.getInstance();
@@ -82,7 +83,7 @@ public class StudentServlet extends HttpServlet {
 			int _stuid=Integer.parseInt(stuid);
 			int _age=Integer.parseInt(age);
 			int _score=Integer.parseInt(score);
-			ServerResponse<Student> responseText1=F2.addStudent(_stuid,name,sex,_score,_age,grade,addr,phone,email);
+			ServerResponse<Student> responseText1=F2.addStudent(_stuid,name,sex,_score,_age,grade,addr,phone,email,stupassword);
 			pw.write(responseText1.obj2str());
 			pw.close();
 		}else if(viewway==StudentOperation.DEL_STUDENT.getViewWay_type()) {

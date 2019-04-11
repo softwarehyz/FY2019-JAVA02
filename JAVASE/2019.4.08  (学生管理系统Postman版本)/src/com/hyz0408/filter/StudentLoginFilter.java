@@ -2,7 +2,6 @@ package com.hyz0408.filter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.HttpRetryException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -17,18 +16,19 @@ import javax.servlet.http.HttpSession;
 
 import com.hyz0408.common.Constant;
 import com.hyz0408.common.ServerResponse;
+import com.hyz0408.pojo.Student;
 import com.hyz0408.pojo.User;
 
 /**
- * Servlet Filter implementation class LoginFilter
+ * Servlet Filter implementation class StudentLoginFilter
  */
-@WebFilter("/StudentServlet")
-public class LoginFilter implements Filter {
+@WebFilter("/StudentChooseCourse")
+public class StudentLoginFilter implements Filter {
 
     /**
      * Default constructor. 
      */
-    public LoginFilter() {
+    public StudentLoginFilter() {
         // TODO Auto-generated constructor stub
     }
 
@@ -45,18 +45,22 @@ public class LoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		// place your code here
+
 		HttpServletRequest _request=(HttpServletRequest) request;
 		@SuppressWarnings("unused")
 		HttpServletResponse _response=(HttpServletResponse) response;
          HttpSession session=_request.getSession();
-         User user=(User)session.getAttribute("user");
-		if(user==null) {
+         Student student=(Student)session.getAttribute("student");
+		if(student==null) {
 			PrintWriter pw=response.getWriter();
 			ServerResponse responseText=ServerResponse.createServerResponseByFail(Constant.USER_NOT_LOGIN, "Î´µÇÂ½");
             pw.write(responseText.obj2str());
             pw.close();
             return;
 		}
+		
+		
+		
 		// pass the request along the filter chain
 		chain.doFilter(request, response);
 	}

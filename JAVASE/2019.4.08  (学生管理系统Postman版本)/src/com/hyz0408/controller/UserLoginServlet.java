@@ -28,13 +28,13 @@ import com.hyz0408.service.impl.UserServiceImpl;
  * Servlet implementation class Application
  */
 @WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+public class UserLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	StudentServiceImpl F2=StudentServiceImpl.getInstance();
     /**
      * Default constructor. 
      */
-    public LoginServlet() {
+    public UserLoginServlet() {
         // TODO Auto-generated constructor stub
 
     }
@@ -77,7 +77,10 @@ public class LoginServlet extends HttpServlet {
         		}
         		pw.write(severResponse.obj2str());
         }else if(o1==UserOperation.USER_REGISTER.getOperation_type()) {
-        	//用户注册
+        	String username=request.getParameter("username");
+    		String password=request.getParameter("password");
+        	ServerResponse<User> severResponse=oper.addUser(username, password);                                   //用户注册
+        	pw.write(severResponse.obj2str());
         }else if(o1==UserOperation.USER_EXITS.getOperation_type()) {
         	    session.removeAttribute("user");                       //退出操作
         	    ServerResponse responseText=ServerResponse.createServerResponseBySucess("退出成功");

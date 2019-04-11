@@ -33,7 +33,7 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public ServerResponse ViewCourse() {
 		// TODO Auto-generated method stub
-		return ServerResponse.createServerResponseBySucess("获取书籍信息成功",course.values());
+		return ServerResponse.createServerResponseBySucess("获取课程信息成功",course.values());
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public ServerResponse ViewCourseByID(int ID) {
+	public ServerResponse<Course> ViewCourseByID(int ID) {
 		// TODO Auto-generated method stub
 		if(course.containsKey(ID)) {
 			return ServerResponse.createServerResponseBySucess("查询成功", course.get(ID));

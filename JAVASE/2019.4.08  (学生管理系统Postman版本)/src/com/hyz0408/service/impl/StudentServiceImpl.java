@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.hyz0408.common.Constant;
 import com.hyz0408.common.ServerResponse;
 import com.hyz0408.pojo.Student;
+import com.hyz0408.pojo.User;
 import com.hyz0408.service.StudentService;
 
 public class StudentServiceImpl implements StudentService {
@@ -25,9 +26,9 @@ public class StudentServiceImpl implements StudentService {
 	private Map<Integer,Student> student=new TreeMap<Integer,Student>();         //定义一个数组用来存储学生信息
 	 
 	private StudentServiceImpl() {
-		Student s=new Student(2014,"韩艳祖","男",88,25,"高级","山西朔州","18434260817","14169@qq.cn",1554132344000L);
-		Student s1=new Student(2015,"蔚卫","男",99,25,"中级","山西朔州","18434260834","84589@qq.cn",1557132334000L);
-		Student s2=new Student(2016,"姜一飞","男",66,25,"低级","山西朔州","18434260821","84529@qq.cn",1558132394000L);
+		Student s=new Student(2014,"韩艳祖","男",88,25,"高级","山西朔州","18434260817","14169@qq.cn",1554132344000L,"123456");
+		Student s1=new Student(2015,"蔚卫","男",99,25,"中级","山西朔州","18434260834","84589@qq.cn",1557132334000L,"123456");
+		Student s2=new Student(2016,"姜一飞","男",66,25,"低级","山西朔州","18434260821","84529@qq.cn",1558132394000L,"123456");
 		student.put(s.getStuid(),s);
 		student.put(s1.getStuid(),s1);
 		student.put(s2.getStuid(),s2);
@@ -72,7 +73,7 @@ public class StudentServiceImpl implements StudentService {
 	}
 	//添加学生
 	@SuppressWarnings("unchecked")
-	public ServerResponse<Student> addStudent(int stuid,String name,String sex,int score,int age,String grade,String addr,String phone,String email) {
+	public ServerResponse<Student> addStudent(int stuid,String name,String sex,int score,int age,String grade,String addr,String phone,String email,String stuPassword) {
 		if(student.containsKey(stuid)) {
 			return ServerResponse.createServerResponseByFail(Constant.ID_IS_EXISTS, "该ID已经存在");
 		}
@@ -86,10 +87,12 @@ public class StudentServiceImpl implements StudentService {
 		s3.setAddr(addr);
 		s3.setPhone(phone);
 		s3.setEmail(email);
+		s3.setStuPassword(stuPassword);
 		student.put(stuid,s3);
 		return ServerResponse.createServerResponseBySucess("添加成功！");
 	}
 	
+	//删除学生
 	@SuppressWarnings("unchecked")
 	public ServerResponse<Student> delStudent(int delID) {
 		if(student.containsKey(delID)) {
@@ -100,7 +103,7 @@ public class StudentServiceImpl implements StudentService {
 		
 	}
 	
-	
+	//改变学生信息
 	@SuppressWarnings("unchecked")
 	public ServerResponse<Student> alterStudent(int stuid,String name,String sex,int score,int age,String grade,String addr,String phone,String email) {
 		if(!student.containsKey(stuid)) {
@@ -118,6 +121,26 @@ public class StudentServiceImpl implements StudentService {
 		return ServerResponse.createServerResponseBySucess("修改成功！");
 	}
 	
+	//学生登陆
+	public ServerResponse<Student> Stulogin(int stuID,String stuPassword){
+		
+		if(student.containsKey(stuID)) {
+			if(stuPassword==null||stuPassword.equals("")) {
+				return ServerResponse.createServerResponseByFail(Constant.PASSWORD_NOT_NULL, "密码不能为空");
+			}
+			Student stu1=student.get(stuID);
+			if(stuPassword.equals(stu1.getStuPassword())) {//登录成功
+				
+				return ServerResponse.createServerResponseBySucess("登陆成功",stu1);
+				
+			}else {//stuID 和password 不匹配
+				return ServerResponse.createServerResponseByFail(Constant.PASSWORD_ERROR, "密码不匹配");	
+			}
+		}
+		return ServerResponse.createServerResponseByFail(Constant.USER_NOT_EXISTS, "用户不存在");
+		}
 	
 	
-}	
+	
+	
+	}
