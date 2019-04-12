@@ -13,5 +13,5 @@ public interface StudentChooseCourse {
     // s 学生对象
 	//cid 课程ID
 	public ServerResponse chooseCourse(int cid,List<Course> course);
-	ServerResponse LookCourse(Map<Integer,Course> course);
+	ServerResponse LookCourse();
 }

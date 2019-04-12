@@ -49,7 +49,7 @@ public class StudentChooseCourse extends HttpServlet {
 		String cid=request.getParameter("Cid");
 		int c1=Integer.parseInt(CourseOperation);
 		if(c1==StudentCourseOperation.STUDENT_LOOK_COURSE.getOperation_type()) {
-			ServerResponse serverResponse=service.LookCourse(course1);
+			ServerResponse serverResponse=service.LookCourse();
 		    response.getWriter().write(serverResponse.obj2str());
 		}else if(c1==StudentCourseOperation.STUDENT_ADD_COURSE.getOperation_type()) {
 			//学生添加课程
@@ -58,6 +58,9 @@ public class StudentChooseCourse extends HttpServlet {
 		}else if(c1==StudentCourseOperation.STUDENT_DEL_COURSE.getOperation_type()) {
 			 //学生删除课程
 			ServerResponse serverResponse=service.DelCourse(Integer.parseInt(cid), course1);
+		    response.getWriter().write(serverResponse.obj2str());
+		}else if(c1==StudentCourseOperation.STUDENT_CHOOSED_COURSE.getOperation_type()) {
+			ServerResponse serverResponse=service.ChoosedCourse(course1);
 		    response.getWriter().write(serverResponse.obj2str());
 		}
 

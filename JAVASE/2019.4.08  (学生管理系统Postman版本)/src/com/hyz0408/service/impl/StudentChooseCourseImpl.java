@@ -10,35 +10,27 @@ import com.hyz0408.pojo.Student;
 import com.hyz0408.service.StudentChooseCourse;
 
 public class StudentChooseCourseImpl implements StudentChooseCourse {
-	
+	CourseServiceImpl C1=CourseServiceImpl.getInstance();
 	//查看所有课程
 	@Override
-	public ServerResponse LookCourse(Map<Integer,Course> course) {
+	public ServerResponse LookCourse() {
 		// TODO Auto-generated method stub
-		return ServerResponse.createServerResponseBySucess("查看成功", course);
+		return C1.ViewCourse();
 	}
-	
-	
-	
+
    //选择课程
 	@Override
 	public ServerResponse chooseCourse(int cid,List<Course> course) {
 		// TODO Auto-generated method stub
 		//根据cid查询课程
-		ServerResponse<Course> serverResponse=CourseServiceImpl.getInstance().ViewCourseByID(cid);
+		ServerResponse<Course> serverResponse=C1.ViewCourseByID(cid);
 		if(serverResponse.isSucess()) {
-			//获取查询的课程
-			for(int i=0;i<course.size();i++) {
-				if(course.get(i).getCid()!=cid) {
+			//获取查询的课程			
 					Course c=serverResponse.getData();
 					course.add(c);
 					return ServerResponse.createServerResponseBySucess("添加成功",c);	
-				}else {
-					return ServerResponse.createServerResponseByFail(Constant.COURSE_IS_EXISTS, "课程已经添加，无需重复添加");
 				}
-			}
 			
-		}
 		return ServerResponse.createServerResponseByFail(Constant.COURSE_NOT_EXISTS, "添加课程不存在");
 	}
 	
@@ -57,5 +49,10 @@ public class StudentChooseCourseImpl implements StudentChooseCourse {
 		return ServerResponse.createServerResponseByFail(Constant.COURSE_NOT_EXISTS, "删除的课程不存在");
 	}
 	
+	//查看已选课程
+	public ServerResponse ChoosedCourse(List<Course> course) {
+		// TODO Auto-generated method stub	
+		return ServerResponse.createServerResponseBySucess("已选课程查询成功", course);
+	}
 
 }

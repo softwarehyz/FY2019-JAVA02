@@ -3,7 +3,8 @@ package com.hyz0408.common;
 public enum StudentCourseOperation {
 	STUDENT_LOOK_COURSE(1,"查看课程"),
 	STUDENT_ADD_COURSE(2,"选择课程"),
-	STUDENT_DEL_COURSE(3,"删除课程")
+	STUDENT_DEL_COURSE(3,"删除课程"),
+	STUDENT_CHOOSED_COURSE(4,"已选课程查看"),
 ;
 	private int operation_type;
 	private String operation_desc;
