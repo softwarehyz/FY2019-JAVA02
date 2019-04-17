@@ -40,6 +40,8 @@ public class StudentChooseCourse extends HttpServlet {
 		//学生选课操作   学生登陆成功后新建会话，创建购物车，用来存放学生选择的课程信息
 		//获取学生会话
 		HttpSession session=request.getSession();
+//		Student s = (Student)session.getAttribute("student");
+//		List<Course> c=(List<Course>)session.getAttribute("cart");
 		CourseServiceImpl C1=CourseServiceImpl.getInstance();
 		//获取到的空的购物车
 		List<Course> course1=(List<Course>)session.getAttribute("cart");

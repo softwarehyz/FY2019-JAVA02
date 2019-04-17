@@ -22,7 +22,7 @@ import com.hyz0408.pojo.User;
 /**
  * Servlet Filter implementation class StudentLoginFilter
  */
-@WebFilter("/StudentChooseCourse")
+//@WebFilter("/StudentChooseCourse")
 public class StudentLoginFilter implements Filter {
 
     /**

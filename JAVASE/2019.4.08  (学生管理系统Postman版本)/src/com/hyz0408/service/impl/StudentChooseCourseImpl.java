@@ -39,14 +39,31 @@ public class StudentChooseCourseImpl implements StudentChooseCourse {
 		// TODO Auto-generated method stub
 		
 		//根据cid查询课程
-		ServerResponse serverResponse=CourseServiceImpl.getInstance().ViewCourseByID(cid);
-		if(serverResponse.isSucess()) {
-			//获取查询的课程
-			Course c=(Course)serverResponse.getData();
-			course.remove(c);
-			return ServerResponse.createServerResponseBySucess("删除成功");	
+//		ServerResponse serverResponse=CourseServiceImpl.getInstance().ViewCourseByID(cid);
+//		if(serverResponse.isSucess()) {
+//			//获取查询的课程
+//			Course c=(Course)serverResponse.getData();
+//			course.remove(c);
+//			return ServerResponse.createServerResponseBySucess("删除成功");	
+//		}
+//		return ServerResponse.createServerResponseByFail(Constant.COURSE_NOT_EXISTS, "删除的课程不存在");
+	if(course!=null) {
+		boolean x=false;
+		for(int i=0;i<course.size();i++) {
+		if(course.get(i).getCid()==cid) {
+			x=false;
+			course.remove(course.get(i));
+			return ServerResponse.createServerResponseBySucess("删除成功");
+		      }else {
+		    	  x=true;
+		      }
+	      }
+		if(x) {
+			return ServerResponse.createServerResponseByFail(Constant.COURSE_NOT_EXISTS, "您未选择该课程");
 		}
-		return ServerResponse.createServerResponseByFail(Constant.COURSE_NOT_EXISTS, "删除的课程不存在");
+		
+	   }
+	return ServerResponse.createServerResponseByFail(Constant.COURSE_NOT_EXISTS, "您未选择该课程");
 	}
 	
 	//查看已选课程

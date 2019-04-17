@@ -3,6 +3,7 @@ package com.hyz0408.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,23 +43,24 @@ public class StudentLoginServlet extends HttpServlet {
 		PrintWriter pw=response.getWriter();
 		StudentServiceImpl stu=StudentServiceImpl.getInstance();
 		//学生登陆
-		String stuid=request.getParameter("stuID");
-		String password=request.getParameter("stuPassword");
-		int p1=Integer.parseInt(stuid);
-		ServerResponse<Student> severResponse=stu.Stulogin(p1, password);               //进行校验
+		String stuid=request.getParameter("username");
+		String password=request.getParameter("password");
+		ServerResponse<Student> severResponse=stu.Stulogin(Integer.parseInt(stuid), password);               //进行校验
 		
 		if(severResponse.isSucess()) {
 			//在会话中保存学生信息
 			session.setAttribute("student",severResponse.getData());
 			//在会话中为学生创建购物车
 			session.setAttribute("cart",new ArrayList<Course>());
+			Student s = (Student)session.getAttribute("student");
+			List<Course> c=(List<Course>)session.getAttribute("cart");
 			//创建cookie
-			Cookie username_cookie=new Cookie("stuID",stuid);
-			username_cookie.setMaxAge(7*24*3600);
-			response.addCookie(username_cookie);
-			Cookie password_cookie=new Cookie("stuPassword",password);  
-			password_cookie.setMaxAge(7*24*3600);
-			response.addCookie(password_cookie);
+			Cookie stuname_cookie=new Cookie("stuID",stuid);
+			stuname_cookie.setMaxAge(7*24*3600);
+			response.addCookie(stuname_cookie);
+			Cookie stupassword_cookie=new Cookie("stuPassword",password);  
+			stupassword_cookie.setMaxAge(7*24*3600);
+			response.addCookie(stupassword_cookie);
 		}
 		pw.write(severResponse.obj2str());
 	}

@@ -54,7 +54,7 @@ public class StudentServlet extends HttpServlet {
 		 String addr=request.getParameter("addr"); 
 		 String phone=request.getParameter("phone"); 
 		 String email=request.getParameter("email"); 
-		 String stupassword=request.getParameter("stupassword"); 
+		 String stupassword="123456"; 
 		 String delID=request.getParameter("delID"); 
 		 String altID=request.getParameter("altID"); 
 		 UserServiceImpl oper=UserServiceImpl.getInstance();
